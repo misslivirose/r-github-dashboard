@@ -11,9 +11,9 @@ The dashboard is populated with a .csv file called `projects-of-interest`. At a 
 Sample .csv:
 
 ```         
-project,repository,
-dashboard,misslivirose/r-github-dashboard,
-llamafile,Mozilla-Ocho/llamafile,
+project,repository
+dashboard,misslivirose/r-github-dashboard
+llamafile,Mozilla-Ocho/llamafile
 llama-recipes,meta-llama/llama-recipes
 ```
 
