@@ -39,7 +39,7 @@ for (p in repositories) {
   projects[projects$repository == p, ]$forks <- as.integer(gsub(',', '', as.character(html |> html_node('#repo-network-counter') |> html_attr('title'))))
   projects[projects$repository == p, ]$issues <- as.integer(gsub(',', '', as.character(html |> html_node('#issues-repo-tab-count') |> html_attr('title'))))
   
-  # Get the collaborators from the GitHub repository page. If nthere is no html node for contributors, return 1
+  # Get the collaborators from the GitHub repository page. If there is no html node for contributors, return 1
   collaborators <- html |> html_node('div.Layout-sidebar') |> html_nodes("[href*=contributors]")
   tryCatch(
     projects[projects$repository == p, ]$contributors <- as.integer(
