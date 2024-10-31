@@ -94,7 +94,10 @@ ui <- page_navbar(
             mainPanel(
               width = 12, 
               plotly::plotlyOutput(
-                outputId='project_plot'
+                outputId='project_plot_stars_forks'
+              ), 
+              plotly::plotlyOutput(
+                outputId='project_plot_collaborators_forks'
               )
             ))
 )
@@ -156,7 +159,7 @@ server <- function(input, output, session) {
   )
   
   # Render the graph(s)
-  plot <- plotly::ggplotly(
+  plot_stars_forks <- plotly::ggplotly(
     ggplot(projects, aes(y = stars, x = forks)) + 
       geom_point(aes(color=project)) + 
       labs(
@@ -166,7 +169,15 @@ server <- function(input, output, session) {
       scale_x_continuous(labels = comma) + 
       scale_y_continuous(labels = comma)
     )
-  output$project_plot <- plotly::renderPlotly(plot)
+  output$project_plot_stars_forks <- plotly::renderPlotly(plot_stars_forks)
+  
+  plot_collab_forks <- plotly::ggplotly(
+    ggplot(projects, aes(x = project, y = contributors)) +
+      geom_bar(stat = 'identity', aes(fill = forks))
+  )
+  output$project_plot_collaborators_forks <- plotly::renderPlotly(plot_collab_forks)
+  
+  
 }
 
 # Launch the application 
