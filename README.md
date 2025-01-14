@@ -6,15 +6,25 @@ The GitHub Data Dashboard makes it easy to quickly create a dashboard applicatio
 
 ## Data
 
-The dashboard is populated with a .csv file called `projects-of-interest`. At a minimum, this file should include two columns, `project` and `repository`. You can include optional columns (such as `tag` or `year`), which will show up in the `reactable` table. The card view, however, doesn't display additional attributes included. The `repository` column should be in the format of the `<owner>/<repository>` found after `github.com/`.
+The dashboard is populated with a SQLite database called `projects.sqlite`. The schema for the database is: 
 
-Sample .csv:
-
-```         
-project,repository
-dashboard,misslivirose/r-github-dashboard
-llamafile,Mozilla-Ocho/llamafile
-llama-recipes,meta-llama/llama-recipes
+```
+CREATE TABLE projects (
+  project_name text, 
+  repository text,
+  tag text,
+  year integer,
+  description text,
+  date_added text 
+);
+CREATE TABLE metrics (
+  project_name text,
+  snapshot_date text, 
+  stars integer,
+  forks integer,
+  contributors integer,
+  issues integer
+);
 ```
 
 ## Dependencies
@@ -23,15 +33,16 @@ This project uses R and Shiny to run and assumes the following dependencies:
 
 -   R, version 4.4.0+
 
--   R Studio - tested with RStudio 2024.04.2+764
+-   R Studio - tested with RStudio 2024.12.0 
 
--   Required R Packages: `install.packages(c('shiny', 'rvest', 'reactable', 'shinythemes', 'stringr', 'ggplot2', 'bslib', 'scales'))`
+-   Required R Packages: `install.packages(c('shiny', 'rvest', 'reactable', 'shinythemes', 'stringr', 'ggplot2', 'bslib', 'scales', 'dplyr', 'RSQlite', 'DBI'))`
 
 ## Running the app
 
 To run the application:
 
 1.  Clone the GitHub project to your local machine after installing dependencies
-2.  Create your `projects-of-interest.csv` file and put it into the repository at the root level
-3.  Open `basic_dashboard_test.R` in R Studio
-4.  Use `CTRL` + `SHIFT` + `ENTER` to generate the dashboard and display it in the R Studio viewer
+2.  Create your `projects.sqlite` file and put it into the repository at the root level
+3.  Populate `projects.sqlite` table `projects` with the name, repository (<user>/<project>), and additional tag, year, and date_added. The description field is pulled from GitHub.
+4.  Open `app.R` in R Studio
+5.  Use `CTRL` + `SHIFT` + `ENTER` to generate the dashboard and display it in the R Studio viewer
